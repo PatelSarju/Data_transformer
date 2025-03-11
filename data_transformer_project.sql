@@ -118,7 +118,7 @@ SELECT TRIM(Email) AS updated_email_data FROM Customers;
 
 
 -- Calculate the running total of TotamAmount of each order
-
+SELECT OrderID, CustomerID, OrderDate, TotalAmount, SUM(TotalAmount) OVER( ORDER BY TotalAmount ) AS cumulative_total FROM Orders; 
 
 
 -- Rank orders based on TotalAmount using the RANK() function
@@ -128,10 +128,10 @@ SELECT OrderID, CustomerID, OrderDate, TotalAmount, RANK() OVER(ORDER BY TotalAm
 -- Assign a discount based on TotalAmount in orders (e.g., > 1000: 10% off, > 500: 5% off)
 SELECT OrderID, CustomerID, OrderDate, TotalAmount,
 CASE 
-    WHEN TotalAmount>=300 THEN TotalAmount=TotalAmount/10
-    WHEN TotalAmount>=100 THEN TotalAmount=TotalAmount/5
+    WHEN TotalAmount>=300 THEN TotalAmount*0.1
+    WHEN TotalAmount>=100 THEN TotalAmount*0.05
     ELSE TotalAmount
-END AS discount_according_totalamount
+END AS discount_according_totalamount 
 FROM Orders;
 
 
